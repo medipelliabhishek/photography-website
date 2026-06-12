@@ -10,6 +10,13 @@ export interface TestimonialItem {
   text: string;
 }
 
+export interface TeamMember {
+  name: string;
+  role: string;
+  bio: string;
+  photo: string;
+}
+
 export interface SiteContent {
   siteTitle: string;
   siteDescription: string;
@@ -29,6 +36,7 @@ export interface SiteContent {
   services: ServiceItem[];
   pricingText: string;
   testimonials: TestimonialItem[];
+  team: TeamMember[];
 }
 
 export interface ContactContent {

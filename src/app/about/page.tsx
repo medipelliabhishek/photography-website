@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
+import TeamMemberCard from "@/components/TeamMemberCard";
 import { getSiteContent } from "@/lib/content";
 
 export const dynamic = "force-dynamic";
@@ -39,6 +40,17 @@ export default function AboutPage() {
           </p>
         </div>
       </div>
+
+      {site.team.length > 0 && (
+        <div className="mt-20">
+          <SectionHeading eyebrow="The People" title="Meet the Team" />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {site.team.map((member, index) => (
+              <TeamMemberCard key={index} {...member} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

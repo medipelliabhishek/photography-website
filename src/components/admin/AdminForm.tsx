@@ -8,6 +8,7 @@ import type {
   GalleryImage,
   ServiceItem,
   SiteContent,
+  TeamMember,
   TestimonialItem,
 } from "@/types/content";
 
@@ -79,6 +80,21 @@ export default function AdminForm({ initialSite, initialContact, initialGallery 
 
   const removeTestimonial = (index: number) =>
     setSite((prev) => ({ ...prev, testimonials: prev.testimonials.filter((_, i) => i !== index) }));
+
+  const updateTeamMember = (index: number, key: keyof TeamMember, value: string) =>
+    setSite((prev) => ({
+      ...prev,
+      team: prev.team.map((member, i) => (i === index ? { ...member, [key]: value } : member)),
+    }));
+
+  const addTeamMember = () =>
+    setSite((prev) => ({
+      ...prev,
+      team: [...prev.team, { name: "", role: "", bio: "", photo: "" }],
+    }));
+
+  const removeTeamMember = (index: number) =>
+    setSite((prev) => ({ ...prev, team: prev.team.filter((_, i) => i !== index) }));
 
   const handleSave = async () => {
     setStatus({ type: "saving" });
@@ -255,6 +271,74 @@ export default function AdminForm({ initialSite, initialContact, initialGallery 
             gallery={gallery}
             hint="Shown next to the About text on the homepage and About page."
           />
+        </div>
+      </section>
+
+      {/* Team / Staff */}
+      <section className={sectionClass}>
+        <h2 className={sectionTitleClass}>Team / Staff</h2>
+        <p className="mb-4 text-sm leading-relaxed text-stone">
+          Shown on the About page as &quot;Meet the Team&quot;. Add yourself, your partner and any
+          staff &mdash; their photo, role and a short description of what they do.
+        </p>
+        <div className="space-y-4">
+          {site.team.map((member, index) => (
+            <div key={index} className="rounded-md border border-white/10 p-4">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="text-xs tracking-widest text-stone uppercase">
+                  Team Member {index + 1}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeTeamMember(index)}
+                  className={removeButtonClass}
+                >
+                  <Trash2 size={14} /> Remove
+                </button>
+              </div>
+              <div className="space-y-3">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className={labelClass}>Name</label>
+                    <input
+                      type="text"
+                      value={member.name}
+                      onChange={(e) => updateTeamMember(index, "name", e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Role</label>
+                    <input
+                      type="text"
+                      value={member.role}
+                      onChange={(e) => updateTeamMember(index, "role", e.target.value)}
+                      className={inputClass}
+                      placeholder="e.g. Founder & Lead Photographer"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className={labelClass}>What they do</label>
+                  <textarea
+                    value={member.bio}
+                    onChange={(e) => updateTeamMember(index, "bio", e.target.value)}
+                    rows={3}
+                    className={inputClass}
+                  />
+                </div>
+                <ImagePathField
+                  label="Photo"
+                  value={member.photo}
+                  onChange={(value) => updateTeamMember(index, "photo", value)}
+                  gallery={gallery}
+                />
+              </div>
+            </div>
+          ))}
+          <button type="button" onClick={addTeamMember} className={addButtonClass}>
+            <Plus size={16} /> Add Team Member
+          </button>
         </div>
       </section>
 

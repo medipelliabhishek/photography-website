@@ -20,7 +20,9 @@ const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
 export function getSiteContent(): SiteContent {
   const file = fs.existsSync(SITE_FILE) ? SITE_FILE : DEFAULT_SITE_FILE;
   const raw = fs.readFileSync(file, "utf-8");
-  return JSON.parse(raw) as SiteContent;
+  // `team` was added after some sites already had a saved site.json on disk
+  // without it, so default it for those older files.
+  return { team: [], ...JSON.parse(raw) } as SiteContent;
 }
 
 export function getContactContent(): ContactContent {
