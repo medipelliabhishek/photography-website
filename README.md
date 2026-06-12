@@ -105,7 +105,29 @@ editor — the website reads them on every page load.
 - [image-size](https://www.npmjs.com/package/image-size) to auto-detect
   gallery photo dimensions for the masonry layout
 
-## 7. Deploying later
+## 7. Live links
+
+- **Live site (share this with the client):** https://photography-website-production-42c9.up.railway.app
+- **Source code:** https://github.com/medipelliabhishek/photography-website
+
+### Publishing updates
+
+The live site is deployed on [Railway](https://railway.app), which runs the
+app exactly like `npm run build && npm run start` on your machine — so
+`/admin` works fully on the live site too (edits and photo uploads persist).
+
+To push a new version after making changes locally:
+
+```bash
+git add -A && git commit -m "describe your change"
+git push                      # updates the GitHub repo
+npx @railway/cli@latest up --detach   # deploys the update live
+```
+
+(First-time setup already linked this folder to the Railway project, so `up`
+just redeploys the current code.)
+
+## 8. Deploying later
 
 This app is a standard Next.js app and can be deployed to any Node.js
 hosting platform (e.g. Vercel, Railway, a VPS). Because `/admin` writes to
